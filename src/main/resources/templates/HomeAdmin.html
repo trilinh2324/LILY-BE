@@ -1,116 +1,178 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
+    <title>Thêm Sản Phẩm</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+          font-family: Arial, sans-serif;
         }
         .form-container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
+          max-width: 600px;
+          margin: auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          background-color: #f9f9f9;
         }
         .form-group {
-            margin-bottom: 15px;
+          margin-bottom: 15px;
         }
         .form-group label {
-            display: block;
-            margin-bottom: 5px;
+          display: block;
+          margin-bottom: 5px;
         }
         .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
+          width: 100%;
+          padding: 8px;
+          box-sizing: border-box;
         }
         .form-group input[type="file"] {
-            padding: 3px;
+          padding: 3px;
         }
         .form-group button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
+          background-color: #4CAF50;
+          color: white;
+          padding: 10px 15px;
+          border: none;
+          cursor: pointer;
         }
         .form-group button:hover {
-            background-color: #45a049;
+          background-color: #45a049;
         }
     </style>
 </head>
 <body>
 <div class="form-container">
-    <h2>Add Product</h2>
+    <h2>Thêm Sản Phẩm</h2>
     <form action="/Products/add" method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="name">Product Name</label>
-            <input type="text" id="name" name="name" required>
+            <label for="name">Tên Sản Phẩm</label>
+            <input type="text" id="name" name="name">
         </div>
         <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" id="price" name="price" step="0.01" required>
+            <label for="price">Giá</label>
+            <input type="number" id="price" name="price">
         </div>
         <div class="form-group">
-            <label for="image">Image</label>
-            <input type="file" id="image" name="image" accept="image/*" required>
+            <label for="image">Hình Ảnh</label>
+            <input type="file" id="image" name="image" accept="image/*">
         </div>
         <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" name="description" rows="4" required></textarea>
+            <label for="description">Mô Tả</label>
+            <textarea id="description" name="description"></textarea>
         </div>
         <div class="form-group">
-            <label for="categoryId">Category</label>
-            <select id="categoryId" name="categoryId" required></select>
+            <label for="categoryId">Danh Mục</label>
+            <select id="categoryId" name="categoryId"></select>
         </div>
         <div class="form-group">
-            <label for="color">Color</label>
-            <input type="text" id="color" name="color" required>
+            <label for="goldType">Loại Vàng</label>
+            <input type="text" id="goldType" name="goldType">
         </div>
         <div class="form-group">
-            <label for="type">Type</label>
-            <input type="text" id="type" name="type" required>
+            <label for="goldPurity">Độ Tinh Khiết Của Vàng</label>
+            <input type="number" id="goldPurity" name="goldPurity"  step="0.1">
         </div>
         <div class="form-group">
-            <label for="material">Material</label>
-            <input type="text" id="material" name="material" required>
+            <label for="goldWeight">Trọng Lượng Vàng</label>
+            <input type="number" id="goldWeight" name="goldWeight"  step="0.1">
         </div>
         <div class="form-group">
-            <label for="stone">Stone</label>
-            <input type="text" id="stone" name="stone" required>
+            <label for="goldColor">Màu Sắc Vàng</label>
+            <input type="text" id="goldColor" name="goldColor">
         </div>
         <div class="form-group">
-            <label for="degreeOfPerfection">Degree of Perfection</label>
-            <input type="text" id="degreeOfPerfection" name="degreeOfPerfection" required>
+            <label for="stoneType">Loại Đá</label>
+            <input type="text" id="stoneType" name="stoneType">
         </div>
         <div class="form-group">
-            <label for="genderProduct">Gender Product</label>
-            <input type="text" id="genderProduct" name="genderProduct" required>
+            <label for="stoneQuantity">Số Lượng Đá</label>
+            <input type="number" id="stoneQuantity" name="stoneQuantity">
         </div>
         <div class="form-group">
-            <button type="submit">Add Product</button>
+            <label for="stoneWeight">Trọng Lượng Đá</label>
+            <input type="number" id="stoneWeight" name="stoneWeight"  step="0.1">
+        </div>
+        <div class="form-group">
+            <label for="stoneColor">Màu Sắc Đá</label>
+            <input type="text" id="stoneColor" name="stoneColor">
+        </div>
+        <div class="form-group">
+            <label for="stoneShape">Hình Dạng Đá</label>
+            <input type="text" id="stoneShape" name="stoneShape">
+        </div>
+        <div class="form-group">
+            <label for="stoneClarity">Độ Trong Suốt Đá</label>
+            <input type="text" id="stoneClarity" name="stoneClarity"  step="0.1">
+        </div>
+        <div class="form-group">
+            <label for="pendantLength">Chiều Dài Mặt Dây</label>
+            <input type="number" id="pendantLength" name="pendantLength"  step="0.1">
+        </div>
+        <div class="form-group">
+            <label for="pendantWidth">Chiều Rộng Mặt Dây</label>
+            <input type="number" id="pendantWidth" name="pendantWidth" step="0.1">
+        </div>
+        <div class="form-group">
+            <label for="pendantHeight">Chiều Cao Mặt Dây</label>
+            <input type="number" id="pendantHeight" name="pendantHeight" step="0.1">
+        </div>
+        <div class="form-group">
+            <label for="warrantyPeriod">Thời Gian Bảo Hành</label>
+            <input type="text" id="warrantyPeriod" name="warrantyPeriod">
+        </div>
+        <div class="form-group">
+            <label for="origin">Xuất Xứ</label>
+            <input type="text" id="origin" name="origin">
+        </div>
+        <div class="form-group">
+            <label for="buybackOption">Tùy Chọn Mua Lại</label>
+            <select id="buybackOption" name="buybackOption">
+                <option value="true">Có</option>
+                <option value="false">Không</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="gemstoneCertification">Chứng Nhận Đá Quý</label>
+            <input type="text" id="gemstoneCertification" name="gemstoneCertification">
+        </div>
+        <div class="form-group">
+            <label for="lifetimeService">Dịch Vụ Trọn Đời</label>
+            <select id="lifetimeService" name="lifetimeService">
+                <option value="true">Có</option>
+                <option value="false">Không</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="fate">Vận Mệnh</label>
+            <input type="text" id="fate" name="fate">
+        </div>
+        <div class="form-group">
+            <label for="quantity">Số Lượng</label>
+            <input type="number" id="quantity" name="quantity">
+        </div>
+        <div class="form-group">
+            <button type="submit">Thêm Sản Phẩm</button>
         </div>
     </form>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        fetch('/categories')
-            .then(response => response.json())
-            .then(data => {
-                const categorySelect = document.getElementById('categoryId');
-                data.forEach(category => {
-                    const option = document.createElement('option');
-                    option.value = category.id;
-                    option.textContent = category.name;
-                    categorySelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error fetching categories:', error));
+      fetch('/categories')
+        .then(response => response.json())
+        .then(data => {
+          const categorySelect = document.getElementById('categoryId');
+          data.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.id;
+            option.textContent = category.name;
+            categorySelect.appendChild(option);
+          });
+        })
+        .catch(error => console.error('Lỗi khi tải danh mục:', error));
     });
 </script>
 </body>

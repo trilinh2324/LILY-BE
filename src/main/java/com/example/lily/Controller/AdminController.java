@@ -2,6 +2,7 @@ package com.example.lily.Controller;
 
 import com.example.lily.Model.Category;
 import com.example.lily.Model.Product;
+import com.example.lily.Model.ProductDetail;
 import com.example.lily.Model.User;
 import com.example.lily.Repository.ICategoryRepository;
 import com.example.lily.Repository.IProductDetailRepository;
@@ -59,47 +60,94 @@ public class AdminController {
 
     public static final String UPLOAD_DIRECTORY = "C:\\Users\\Admin\\Desktop\\LiLy\\src\\main\\resources\\static\\Image\\";
 
-    private String uploadImage(MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
+    private String uploadImage(MultipartFile imageFile) throws IOException {
+        String fileName = imageFile.getOriginalFilename();
         Path uploadPath = Paths.get(UPLOAD_DIRECTORY);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
         Path filePath = uploadPath.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         return fileName;
     }
+
+
+
 
     @PostMapping("/add")
     public ResponseEntity<Void> addProduct(
             @RequestParam("name") String name,
-            @RequestParam("price") double price,
+            @RequestParam("price") Double price,
             @RequestParam("image") MultipartFile imageFile,
             @RequestParam("description") String description,
             @RequestParam("categoryId") long categoryId,
-            @RequestParam("color") String color,
-            @RequestParam("type") String type,
-            @RequestParam("material") String material,
-            @RequestParam("stone") String stone,
-            @RequestParam("degreeOfPerfection") String degreeOfPerfection,
-            @RequestParam("genderProduct") String genderProduct) throws IOException {
+            @RequestParam("goldType") String goldType,
+            @RequestParam("goldPurity") Double goldPurity,
+            @RequestParam("goldWeight") Double goldWeight,
+            @RequestParam("goldColor") String goldColor,
+            @RequestParam("stoneType") String stoneType,
+            @RequestParam("stoneQuantity") int stoneQuantity,
+            @RequestParam("stoneWeight") Double stoneWeight,
+            @RequestParam("stoneColor") String stoneColor,
+            @RequestParam("stoneShape") String stoneShape,
+            @RequestParam("stoneClarity") String stoneClarity,
+            @RequestParam("pendantLength") Double pendantLength,
+            @RequestParam("pendantWidth") Double pendantWidth,
+            @RequestParam("pendantHeight") Double pendantHeight,
+            @RequestParam("warrantyPeriod") String warrantyPeriod,
+            @RequestParam("origin") String origin,
+            @RequestParam("buybackOption") boolean buybackOption,
+            @RequestParam("gemstoneCertification") String gemstoneCertification,
+            @RequestParam("lifetimeService") boolean lifetimeService,
+            @RequestParam("fate") String fate,
+            @RequestParam("quantity") int quantity) throws IOException {
 
+        // Upload image and get the relative path
         String fileName = uploadImage(imageFile);
 
+        // Create ProductDetail
+        ProductDetail productDetail = new ProductDetail();
+        productDetail.setGoldType(goldType);
+        productDetail.setGoldPurity(goldPurity);
+        productDetail.setGoldWeight(goldWeight);
+        productDetail.setGoldColor(goldColor);
+        productDetail.setStoneType(stoneType);
+        productDetail.setStoneQuantity(stoneQuantity);
+        productDetail.setStoneWeight(stoneWeight);
+        productDetail.setStoneColor(stoneColor);
+        productDetail.setStoneShape(stoneShape);
+        productDetail.setStoneClarity(stoneClarity);
+        productDetail.setPendantLength(pendantLength);
+        productDetail.setPendantWidth(pendantWidth);
+        productDetail.setPendantHeight(pendantHeight);
+        productDetail.setWarrantyPeriod(warrantyPeriod);
+        productDetail.setOrigin(origin);
+        productDetail.setBuybackOption(buybackOption);
+        productDetail.setGemstoneCertification(gemstoneCertification);
+        productDetail.setLifetimeService(lifetimeService);
 
+        // Create Product
         Product product = new Product();
         product.setName(name);
         product.setPrice(price);
         product.setImage(fileName); // Set the relative path
         product.setDescription(description);
+        product.setFate(fate);
+        product.setQuantity(quantity);
+
+        // Set category
         Category category = categoryService.getCategoryById(categoryId);
         product.setCategory(category);
-        // Set other product properties as needed
 
+        // Set product detail
+        product.setProductDetail(productDetail);
+
+        // Save product
         productRepository.save(product);
 
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("/Products/HomeAdmin")).build();
     }
+
 
     @GetMapping("/HomeAdmin")
     public ModelAndView showAllProducts(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {

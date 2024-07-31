@@ -14,8 +14,11 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name; // tên sp
+    private String code; // mã số
     private double price; // giá sp
     private String image; // ảnh sp
+    private String  fate ; // phù hợp với người
+    private int quantity ;// số lượng
     private String description; // miêu tả
 
     @ManyToOne
