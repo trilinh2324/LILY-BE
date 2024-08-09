@@ -17,5 +17,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:C:\\Users\\Admin\\Desktop\\LiLy\\src\\main\\resources\\static\\");
 
     }
+
 }
 

@@ -24,7 +24,6 @@ public class Bill {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "bill_id")
     private List<BillItem> billItems;
-
     private Date orderDate;
     private double totalAmount;
 

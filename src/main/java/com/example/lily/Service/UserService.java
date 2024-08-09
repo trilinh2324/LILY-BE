@@ -19,7 +19,7 @@ public class UserService  implements IUserService {
 
     @Override
     public Optional<User> findById(Long id) {
-        return Optional.empty();
+        return userRepository.findById(id);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class UserService  implements IUserService {
     @Autowired
     private UserRepository userRepository;
 
-
+// admin
     public User loginUser(String userName, String password) {
         User user = userRepository.findByUserName(userName);
         if (user != null && user.getPassword().equals(password) && user.getRole() == 0) {
@@ -42,4 +42,9 @@ public class UserService  implements IUserService {
         }
         return null; // Đăng nhập không thành công
     }
+// user
+public User findByUserName(String userName) {
+    return userRepository.findByUserName(userName);
+}
+
 }
