@@ -120,4 +120,12 @@ public class UserControllerAPI {
             this.message = message;
         }
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestParam String userName,
+                                             @RequestParam String password,
+                                             @RequestParam long phone_number) {
+        User registeredUser = userService.registerUser(userName, password, phone_number);
+        return ResponseEntity.ok(registeredUser);
+    }
 }

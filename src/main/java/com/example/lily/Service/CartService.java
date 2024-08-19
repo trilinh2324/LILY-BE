@@ -35,13 +35,25 @@ public class CartService {
                 Optional<Cart> existingCartItemOptional = cartRepository.findByProductIdAndUserId(productId, user.getId());
                 if (existingCartItemOptional.isPresent()) {
                     Cart existingCartItem = existingCartItemOptional.get();
-                    existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
-                    cartRepository.save(existingCartItem);
-                    return ResponseEntity.ok("Số lượng đã được cập nhật trong giỏ hàng.");
+                    int newQuantity = existingCartItem.getQuantity() + quantity;
+
+                    // Kiểm tra số lượng trong giỏ hàng với số lượng muốn thêm
+                    if (newQuantity <= product.getQuantity()) {
+                        existingCartItem.setQuantity(newQuantity);
+                        cartRepository.save(existingCartItem);
+                        return ResponseEntity.ok("Số lượng đã được cập nhật trong giỏ hàng.");
+                    } else {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Số lượng trong giỏ hàng không thể vượt quá số lượng sản phẩm có sẵn.");
+                    }
                 } else {
-                    Cart cartItem = new Cart(product, user, quantity);
-                    cartRepository.save(cartItem);
-                    return ResponseEntity.ok("Sản phẩm đã được thêm vào giỏ hàng thành công.");
+                    // Kiểm tra số lượng muốn thêm vào giỏ hàng có vượt quá số lượng sản phẩm không
+                    if (quantity <= product.getQuantity()) {
+                        Cart cartItem = new Cart(product, user, quantity);
+                        cartRepository.save(cartItem);
+                        return ResponseEntity.ok("Sản phẩm đã được thêm vào giỏ hàng thành công.");
+                    } else {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Số lượng sản phẩm muốn thêm vào giỏ hàng vượt quá số lượng sản phẩm có sẵn.");
+                    }
                 }
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Không tìm thấy người dùng.");
@@ -51,6 +63,7 @@ public class CartService {
         }
     }
 
+
     public ResponseEntity<?> getCartByUser(String username) {
         User user = userRepository.findByUserName(username);
         if (user != null) {
@@ -59,5 +72,30 @@ public class CartService {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng.");
         }
+    }
+
+    public boolean removeFromCart(long id) {
+        Optional<Cart> cartItemOptional = cartRepository.findById(id);
+        if (cartItemOptional.isPresent()) {
+            cartRepository.delete(cartItemOptional.get());
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public void updateCartItemQuantity(Long cartItemId, int newQuantity) throws Exception {
+        Cart cartItem = cartRepository.findById(cartItemId)
+                .orElseThrow(() -> new Exception("Giỏ hàng không tồn tại"));
+
+        Product product = cartItem.getProduct();
+
+        // Kiểm tra số lượng yêu cầu có vượt quá số lượng sản phẩm không
+        if (newQuantity > product.getQuantity()) {
+            throw new Exception("Số lượng yêu cầu vượt quá số lượng sản phẩm có sẵn");
+        }
+
+        // Cập nhật số lượng trong giỏ hàng
+        cartItem.setQuantity(newQuantity);
+        cartRepository.save(cartItem);
     }
 }

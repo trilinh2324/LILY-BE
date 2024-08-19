@@ -48,11 +48,35 @@ public class CartControllerAPI {
         return cartService.addProductToCart(name, productId, quantity);
     }
 
+
     @GetMapping("/cart/{username}")
     public ResponseEntity<?> getCartByUser(@PathVariable String username) {
         return cartService.getCartByUser(username);
     }
+    @DeleteMapping("/removeFromCart/{id}")
+    public ResponseEntity<?> removeFromCart(@PathVariable long id) {
+        Optional<Cart> cartItemOptional = cartRepository.findById(id);
+        if (cartItemOptional.isPresent()) {
+            cartRepository.delete(cartItemOptional.get());
+            return ResponseEntity.ok("Sản phẩm đã được xóa khỏi giỏ hàng thành công.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
+    @PatchMapping("/updateQuantity/{cartItemId}")
+    public ResponseEntity<String> updateCartItemQuantity(
+            @PathVariable("cartItemId") Long cartItemId,
+            @RequestBody Cart updatedCart) {
+
+        try {
+            cartService.updateCartItemQuantity(cartItemId, updatedCart.getQuantity());
+            return ResponseEntity.ok("Cập nhật số lượng sản phẩm thành công.");
+        } catch (Exception e) {
+            // Trả về thông báo lỗi cụ thể
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 
 
 }

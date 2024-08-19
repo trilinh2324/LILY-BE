@@ -47,4 +47,13 @@ public User findByUserName(String userName) {
     return userRepository.findByUserName(userName);
 }
 
+    public User registerUser(String userName, String password, long phone_number) {
+        User user = new User();
+        user.setUserName(userName);
+        user.setPassword(password);
+        user.setPhone_number(phone_number);
+        user.setRole(1); // Set role mặc định là 1
+
+        return userRepository.save(user);
+    }
 }
