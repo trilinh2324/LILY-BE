@@ -36,11 +36,6 @@ public class CartControllerAPI {
     private CartService cartService;
 
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Cart>> getCartByUserId(@PathVariable Long userId) {
-        List<Cart> cartItems = cartRepository.findByUserId(userId);
-        return ResponseEntity.ok(cartItems);
-    }
 
 
     @PostMapping("/addToCart/{productId}/{name}")
@@ -63,6 +58,12 @@ public class CartControllerAPI {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Cart>> getCartByUserId(@PathVariable Long userId) {
+        List<Cart> cartItems = cartRepository.findByUserId(userId);
+        return ResponseEntity.ok(cartItems);
+    }
+
 
     @PatchMapping("/updateQuantity/{cartItemId}")
     public ResponseEntity<String> updateCartItemQuantity(
